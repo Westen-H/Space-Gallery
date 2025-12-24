@@ -11,6 +11,7 @@ const ImagesForm = ({ onSearch, onTitleChange }) => {
     e.preventDefault();
     const texto = query.trim();
     if (!texto) return;
+    
     onSearch?.(texto);
   };
 
