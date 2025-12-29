@@ -7,7 +7,7 @@ const usePexels = () => {
   const [totalPages, setTotalPages] = useState(0); // estado del total de paginas
 
   // cantidad de fotos por pagina
-  const PER_PAGE = 10;
+  const PER_PAGE = 5;
 
   // función de llamada al fetch
   const getImages = async (query, page = 1) => {
