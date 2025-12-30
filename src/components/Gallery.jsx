@@ -1,5 +1,5 @@
 // Componente para renderizar en pantalla el arreglo de imagenes que el hook (usePexel) obtiene de la api
-const Gallery = ({ images }) => {
+const Gallery = ({ images, onToggleFavorite, isFavorite }) => {
   // verificar si el arreglo (objeto recibido) esta vacio, de ser así devolver null para no dibujar nada
   if (!images.length) return null;
 
@@ -9,6 +9,12 @@ const Gallery = ({ images }) => {
       {images.map((img) => (
         <article key={img.id} className="image-card"> {/* usar el id que da pexel com key(identificador unico) */}
           <div className="image-wrapper">
+              <button
+                className="favorite-btn"
+                onClick={() => onToggleFavorite(img)}
+              >
+                {isFavorite(img.id) ? "❤️" : "🤍"}
+              </button>
             <img src={img.src.medium} alt={img.alt} loading="lazy" />
             <div className="image-overlay">
               <p className="image-description">{img.alt || "sin descripción"}</p>

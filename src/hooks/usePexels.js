@@ -1,12 +1,9 @@
 import { useState } from "react";
 
-// Crear hook para el fetch
+// Crear custon hook para el fetch (petición a la api)
 const usePexels = () => {
   // <<>><======><<>> Estados <<>><======><<>>
-  // Crear variable de estado que contendra los datos de la peticiónde la "api" con valor inicail de array vacio " [] "
-  const [ images, setImages ] = useState([]);
-  const [ totalPages, setTotalPages]  = useState(0); // estado del total de paginas
-  const [ loading, setLoading ] = useState(false); // estado de carga
+  const [ loading, setLoading ] = useState(false); // estado de carga: indicar si la petición esta en curso
   const [ error, setError ] = useState(null); // estado de error
 
   // cantidad de fotos por página
@@ -15,9 +12,8 @@ const usePexels = () => {
   // función de llamada al fetch
   const getImages = async (query, page = 1) => {
     try {
-      // Activar loading antes de la petición
-      setLoading(true)
-      // Limpiar error
+      // Activar loading antes de la petición y Limpiar error
+      setLoading(true);
       setError(null);
 
       //construir la url
@@ -30,24 +26,27 @@ const usePexels = () => {
         },
       });
 
-      // transformar la respuesta para obtener los datos
+      // convertir/traducir la respuesta a "json" para obtener los datos y guardarlos en una variable "data"
       const data = await response.json();
 
-      // actualizar con las fotos nuevas
-      setImages(data.photos || []);
-      setTotalPages(Math.ceil(data.total_results / PER_PAGE))
+      // devolver un objeto de los datos 
+      return {
+        photos: data.photos ||  [],
+        totalPages: Math.ceil(data.total_result / PER_PAGE), // Calcuar total de pagina por resultados
+      };
 
     } catch (err) {
       console.error(err);
-      setError( err.message.includes("401") ? "Error de autenticación con la API." : "No se pudieron cargar las imágenes. Inténtalo de nuevo." );
-      setImages([]);
-      setTotalPages(0);
+      setError("Error cargando imágenes. Inténtalo de nuevo.");
+      return { photos: [], totalPages: 0 }
+      
     } finally {
       setLoading(false); // Desactivar loading siempre
     }
   };
 
-  return { images, totalPages, loading, error, getImages };
+  return { loading, error, getImages };
 };
 
 export default usePexels;
+

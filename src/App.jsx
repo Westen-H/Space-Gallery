@@ -1,59 +1,79 @@
 // <<>><======><<>> Importaciones <<>><======><<>>
-import { useState } from 'react';
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
-import HeaderPage from './pages/Header' 
-import FooterPage from './pages/Footer'
+import HeaderPage from "./pages/Header";
+import FooterPage from "./pages/Footer";
 
-import ImagesForm from './components/Form';
-import Pagination from './components/Pagination';
-// import Gallery from './components/Gallery';
-
-import useSearch from './hooks/useSearch';
+import ImagesForm from "./components/Form";
+import Pagination from "./components/Pagination";
 import Gallery from './components/Gallery';
+import FavoritesModal from "./components/FavoritesModal";
+
+
+import useSearchBlocks from "./hooks/useSearchBlocks";
+import useFavoritesModal from "./hooks/useFavoritesModal";
+
 
 function App() {
-  // <<>><======><<>> Estado de <<>><======><<>>
-  const [ title, setTitle ] = useState("Space Gallery"); // estado para eltitulo adaptativo
+  // <<>><======><<>> Estados <<>><======><<>>
+  const [title, setTitle] = useState("Space Gallery"); // estado para eltitulo adaptativo
 
   // Desestructurar el custon Hook useSearch para usarlo
-  const { images, page, totalPages, currentQuery, loading, error, search } = useSearch();
+  const { blocks, addSearchBlock, updatePage, error, loading } =
+    useSearchBlocks();
+  const { isOpen: isFavoritesOpen, open: openFavorites, close: closeFavorites, favorites, toggleFavorite, isFavorite } = useFavoritesModal();
 
-  // a
+  // rendeizar la app
   return (
     <>
-      <div className='header-container'>
-        <HeaderPage/>
+      <div className="header-container">
+        <HeaderPage onOpenFavorites={openFavorites}/>
       </div>
+
       <main>
         <div>
           <h1>{title}</h1>
-          <ImagesForm
-          onSearch={(query) => search(query, 1)}
-          onTitleChange={setTitle}
-          />
+
+          <ImagesForm onSearch={addSearchBlock} onTitleChange={setTitle} />
         </div>
-                {/* Estado vacío */}
-        {images.length === 0 && (
+
+        {/* Estado vacío */}
+        {blocks.length === 0 && (
           <p className="empty-state">
             Escribe una categoría y descubre imágenes increíbles 📸
           </p>
         )}
-        {/* loading mientras se espera cargar la imagen */}
-        {loading && error && (
-          <p style={{ marginTop: "30px", color: "red"}}>Cargando imágenes...</p>
-        )}
 
-        {!loading && !error && (<Gallery images={images} />)}
-        
-        <Pagination page={page} totalPages={totalPages} onPageChange={(p) => search(currentQuery, p)} />
+        {/* Loading / Error global */}
+        {loading && <p style={{ marginTop: "30px" }}>Cargando imágenes...</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        {/* BLOQUES */}
+        {blocks.map((block) => (
+          <section key={block.id} style={{ marginBottom: "3rem" }}>
+            <h2 style={{ textTransform: "capitalize" }}>
+              Resultados para: {block.query}
+            </h2>
+
+            <Gallery images={block.images} onToggleFavorite={toggleFavorite} isFavorite={isFavorite} />
+
+
+            <Pagination
+              page={block.page}
+              totalPages={block.totalPages}
+              onPageChange={(p) => updatePage(block.id, p)}
+            />
+          </section>
+        ))}
       </main>
-      <div className='footer-container'>
-        <FooterPage/>
-      </div>
+      {isFavoritesOpen && ( <FavoritesModal favorites={favorites} onClose={closeFavorites} onToggleFavorite={toggleFavorite} isFavorite={isFavorite} /> )}
 
+      <div className="footer-container">
+        <FooterPage />
+      </div>
     </>
   );
 }
 
-export default App
+export default App;

@@ -15,7 +15,7 @@
   background-image: url(/src/assets/lay-flat-escritorio-cafe-teclado_23-2148397868.jpg);
   background-size: cover;
  
-    /* Escalamos la imagen para que el 60% de su altura sea igual a los 100px del div */
+  /* Escalamos la imagen para que el 60% de su altura sea igual a los 100px del div */
   /* El cálculo es (100 / 60) * 100 = 166.6% */
   background-size: auto 166.6%; 
   
@@ -37,7 +37,7 @@
   align-items: center;
   gap: 20px;
  
-    /*Fondo semitransparente (blanco con poca opacidad) */
+  /*Fondo semitransparente (blanco con poca opacidad) */
   background: rgba(255, 255, 255, 0.1); 
   /*desenfoque del fondo */
   backdrop-filter: blur(10px);
@@ -76,12 +76,9 @@
   font-weight: 700;
 }
 
-
 .logo-text span {
   color: #fc5562; /* mismo color que favoritos */
 }
-
-
 
 /* Menú y Botón */
 .nav-menu ul {
@@ -222,6 +219,7 @@ input[type="submit"]:active {
   width: 100%;
   height: 100%;
   object-fit: cover; /* Ajustar la foto sin deformarla */
+  display: block; /* ← SOLUCIÓN: elimina el hueco blanco */
 }
 
 /* Hacer capa oscura con info al hacer hover */
@@ -254,6 +252,58 @@ input[type="submit"]:active {
 .btn-pexels:hover {
   background: #02fca9;
 }
+
+/*#region BOTÓN DE FAVORITO: círculo perfecto */ 
+.favorite-btn { 
+  position: absolute; 
+  top: 12px; 
+  right: 10px;
+  width: 42px; 
+  height: 42px; 
+  border-radius: 50%; 
+  border: none; 
+  padding: 0; 
+  background: rgba(255, 255, 255, 0.85); 
+  backdrop-filter: blur(6px); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 1.5rem; 
+  cursor: pointer; 
+  transition: all 0.25s ease; 
+  z-index: 10; 
+} 
+
+.favorite-btn:hover { 
+  background: white; 
+  transform: scale(1.15); 
+} 
+
+.favorite-btn:active { 
+  transform: scale(0.95); 
+
+} .favorite-btn.liked { 
+  background: #fc5562; 
+  color: white; 
+  box-shadow: 0 0 10px rgba(252, 85, 98, 0.6);
+  transform: scale(1.2); 
+}
+
+/* Ocultar el botón por defecto */
+.favorite-btn {
+  opacity: 0;
+  pointer-events: none; /* evita clics cuando está oculto */
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Mostrarlo cuando el usuario hace hover en la imagen */
+.image-wrapper:hover .favorite-btn {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1.05);
+}
+
+
 /*#endregion*/
 
 /*<<>><======><<>> Estado vacío <<>><======><<>>*/
@@ -282,6 +332,53 @@ input[type="submit"]:active {
   cursor: not-allowed;
 }
 
+/*#region Favorites*/
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+/* Modal content */
+.modal-content {
+  background: white;
+  width: 90%;
+  max-width: 900px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Close button */
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #fc5562;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.modal-close:hover {
+  background: #e0041f;
+}
+/*#endregion */
 
 /*#region <<>><======><<>> Footer <<>><======><<>>*/
 .footer {
@@ -344,11 +441,11 @@ input[type="submit"]:active {
     padding: 15px;
   }
 
-  
   .footer-links {
     flex-direction: column;
     gap: 8px;
   }
+
   .separator {
     display: none; /* Ocultar la barra en vertical */
   }
