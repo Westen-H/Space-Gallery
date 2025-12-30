@@ -14,10 +14,10 @@ import Gallery from './components/Gallery';
 
 function App() {
   // <<>><======><<>> Estado de <<>><======><<>>
-  const [ title, setTitle ] = useState("Space Gallery");
+  const [ title, setTitle ] = useState("Space Gallery"); // estado para eltitulo adaptativo
 
   // Desestructurar el custon Hook useSearch para usarlo
-  const { images, page, totalPages, currentQuery, search } = useSearch();
+  const { images, page, totalPages, currentQuery, loading, error, search } = useSearch();
 
   // a
   return (
@@ -25,19 +25,29 @@ function App() {
       <div className='header-container'>
         <HeaderPage/>
       </div>
+      <main>
+        <div>
+          <h1>{title}</h1>
+          <ImagesForm
+          onSearch={(query) => search(query, 1)}
+          onTitleChange={setTitle}
+          />
+        </div>
+                {/* Estado vacío */}
+        {images.length === 0 && (
+          <p className="empty-state">
+            Escribe una categoría y descubre imágenes increíbles 📸
+          </p>
+        )}
+        {/* loading mientras se espera cargar la imagen */}
+        {loading && error && (
+          <p style={{ marginTop: "30px", color: "red"}}>Cargando imágenes...</p>
+        )}
 
-      <div>
-        <h1>{title}</h1>
-        <ImagesForm
-        onSearch={(query) => search(query, 1)}
-        onTitleChange={setTitle}
-        />
-      </div>
-
-      <Gallery images={images} />
-
-      <Pagination page={page} totalPages={totalPages} onPageChange={(p) => search(currentQuery, p)} />
-
+        {!loading && !error && (<Gallery images={images} />)}
+        
+        <Pagination page={page} totalPages={totalPages} onPageChange={(p) => search(currentQuery, p)} />
+      </main>
       <div className='footer-container'>
         <FooterPage/>
       </div>

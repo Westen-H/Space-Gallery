@@ -7,7 +7,7 @@ const FooterPage = () => {
                     <span>Desarrollado con React</span>
                     <span className="separator">|</span>
                     <a href="https://www.pexels.com" target="_blank" rel="noreferrer">
-                        Powered by Pexels
+                        Images from Pexels
                     </a>
                 </div>
             </div>

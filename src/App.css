@@ -1,10 +1,195 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+  box-sizing: border-box;
 }
 
+/*#region <<>><======><<>> Header <<>><======><<>>*/
+.main-header {
+  width: 80%;
+  height: 200px;
+  z-index: 1000;
+  padding: 60px 20px;
+  border-bottom: 1px solid #eee;
+  background-image: url(/src/assets/lay-flat-escritorio-cafe-teclado_23-2148397868.jpg);
+  background-size: cover;
+ 
+    /* Escalamos la imagen para que el 60% de su altura sea igual a los 100px del div */
+  /* El cálculo es (100 / 60) * 100 = 166.6% */
+  background-size: auto 166.6%; 
+  
+  /* Posicionamos para saltarnos el primer 20% */
+  /* En background-position, el % funciona de forma relativa al espacio sobrante */
+  background-position: center 33%; 
+
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-contain {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+ 
+    /*Fondo semitransparente (blanco con poca opacidad) */
+  background: rgba(255, 255, 255, 0.1); 
+  /*desenfoque del fondo */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Para compatibilidad con Safari */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  color: white;
+}
+
+.header-container {
+  background-image: linear-gradient(-225deg, #77FFD2 0%, #6297DB 48%, #1EECFF 100%);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+/*<<>><======><<>> Header <<>><======><<>>*/
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+   
+.logo-text {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+
+.logo-text span {
+  color: #fc5562; /* mismo color que favoritos */
+}
+
+
+
+/* Menú y Botón */
+.nav-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.btn-favorites {
+  background-color: #fc5562;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 6px rgba(255, 71, 87, 0.2);
+}
+
+.btn-favorites:hover {
+  background-color: #ee0528;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(255, 71, 87, 0.3);
+}
+
+.btn-favorites .icon {
+  font-size: 1.1rem;
+}
+/*#endregion*/
+
+/*#region<<>><======><<>> FORM <<>><======><<>>*/
+/* Contenedor del Formulario */
+form {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Estilo del Fieldset (Quitamos los bordes clásicos feos) */
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  position: relative;
+}
+
+/* Leyenda oculta visualmente pero accesible para lectores de pantalla */
+legend {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* El campo de texto */
+input[type="text"] {
+  flex: 1;
+  padding: 15px 25px;
+  border: 2px solid #eee;
+  border-radius: 50px; /* Estilo píldora */
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  color: black;
+}
+
+/* Efecto cuando el usuario hace clic para escribir */
+input[type="text"]:focus {
+  border-color: #f5c2c2e5; /* Verde Pexels */
+  box-shadow: 0 4px 12px rgba(160, 98, 5, 0.2);
+}
+
+/* El botón de enviar */
+input[type="submit"] {
+  background-color: #DCD9D4;
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
+  color: white;
+  border: none;
+  padding: 0 30px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #CDDCDC;
+  background-image: linear-gradient(-225deg, #77FFD2 0%, #6297DB 48%, #1EECFF 100%);
+  transform: translateY(-2px);
+}
+
+input[type="submit"]:active {
+  transform: translateY(0);
+}
+/*#endregion*/
+
+/*#region<<>><======><<>> Imagen Card <<>><======><<>>*/
 /* Contenedor principal en Grid */
 .gallery-container {
   display: grid;
@@ -18,28 +203,28 @@
   position: relative;
   border-radius: 12px;
   overflow: hidden; /* Corta lo que salga de los bordes redondeados */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(255, 104, 4, 0.1);
   transition: transform 0.3s ease;
   background: #f0f0f0;
 }
 
 .image-card:hover {
-  transform: translateY(-5px); /* Se eleva un poco */
+  transform: translateY(-5px); /* elevar un poco */
 }
 
 /* Contenedor de la imagen */
 .image-wrapper {
   position: relative;
-  aspect-ratio: 4 / 5; /* Mantiene un tamaño uniforme */
+  aspect-ratio: 4 / 5; /* Mantener un tamaño uniforme */
 }
 
 .image-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ajusta la foto sin deformarla */
+  object-fit: cover; /* Ajustar la foto sin deformarla */
 }
 
-/* Capa oscura con info que aparece al hacer hover */
+/* Hacer capa oscura con info al hacer hover */
 .image-overlay {
   position: absolute;
   bottom: 0;
@@ -56,7 +241,7 @@
 }
 
 .image-card:hover .image-overlay {
-  opacity: 1; /* Aparece al pasar el mouse */
+  opacity: 1; /* Aparecerá al pasar el mouse */
 }
 
 .image-description {
@@ -66,22 +251,106 @@
   text-transform: capitalize;
 }
 
-/* Botón estilizado */
-.btn-pexels {
-  display: inline-block;
-  background: #05a081; /* Verde oficial de Pexels */
-  color: white;
-  text-decoration: none;
-  padding: 8px 15px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  text-align: center;
-  transition: background 0.2s;
-}
-
 .btn-pexels:hover {
-  background: #04866d;
+  background: #02fca9;
+}
+/*#endregion*/
+
+/*<<>><======><<>> Estado vacío <<>><======><<>>*/
+.empty-state {
+  margin-top: 40px;
+  font-size: 1rem;
+  color: #777;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0 2rem;
+}
+
+/*<<>><======><<>> Paginación <<>><======><<>>*/
+.pagination button.active {
+  background-image: linear-gradient(-225deg, #77FFD2 0%, #6297DB 48%, #1EECFF 100%);
+  color: white;
+}
+
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 
+/*#region <<>><======><<>> Footer <<>><======><<>>*/
+.footer {
+  background-image: linear-gradient(-225deg, #77FFD2 0%, #6297DB 48%, #1EECFF 100%);
+  color: #ffffff;
+  padding: 20px 20px;
+  z-index: 10;
+  margin-top: 1.5rem;
+}
 
+.footer-content {
+  max-width: 1200px;
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.footer-links a {
+  color: #05a081;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.separator {
+  color: #444;
+}
+
+/* Responsividad*/
+@media (max-width: 480px) {
+  fieldset {
+    flex-direction: column;
+  }
+
+  input[type="submit"] {
+    padding: 15px;
+  }
+
+  
+  .footer-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .separator {
+    display: none; /* Ocultar la barra en vertical */
+  }
+}
+/*#endregion*/
